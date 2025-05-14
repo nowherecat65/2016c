@@ -6,3 +6,69 @@ campaignTrail_temp.temp_election_list = [{"id": 20, "year": 2016, "is_premium": 
 campaignTrail_temp.credits = '/u/JohnKerry2032';
 
 campaignTrail_temp.election_json = [campaignTrail_temp.election_json[campaignTrail_temp.election_json.map(f=>f.pk).indexOf(20)]]
+
+document.body.style.backgroundColor = "#bfe6ff";
+document.body.background = "";
+$(".container")[0].style.backgroundColor = "#fff";
+nct_stuff.themes[nct_stuff.selectedTheme].coloring_title = "#700016";
+document.getElementsByClassName("game_header")[0].style.backgroundColor = nct_stuff.themes[nct_stuff.selectedTheme].coloring_title;
+nct_stuff.themes[nct_stuff.selectedTheme].coloring_window = "#e8fbff";
+$("#site_credits a").css({"color":"#0066cc"});
+document.styleSheets[0].insertRule(".game_header{ height:4.1em !important;}", 0);
+document.styleSheets[0].insertRule("#game_window{ height:41em !important;}", 0);
+document.getElementById("inner_window_1").children[1].innerHTML = `  <li>Select a year and a candidate to find out.</li>  <li>You will answer questions about your platform and positions, and also about your campaign strategy.</li>  <li>The answers will affect your popularity for better or worse, both nationally and in individual states.</li>  <li>Walk the fine line between appealing to your base and winning a majority of the votes.</li>`
+document.styleSheets[0].insertRule(".inner_window_w_desc{ margin:1em 1em 0 !important;padding-top: 0.5em !important;}", 0);
+document.styleSheets[0].insertRule(".inner_window_question{ margin:1em 1em .7em !important;padding-top: 0.3em !important;}", 0);
+document.styleSheets[0].insertRule("#main_content_area { height:82% !important;}", 0);
+
+function onGameWindowFixHistorical() {
+    const resultsTableHolder = document.getElementById("overall_details_container");
+
+    if(!resultsTableHolder || resultsTableHolder.classList.contains("done")) {
+        return;
+    }
+
+    resultsTableHolder.classList.add("done");
+    document.getElementById("overall_details_container").children[2].children[5].remove()
+    document.getElementById("overall_details_container").children[2].children[4].remove()
+    document.getElementById("overall_details_container").children[2].children[3].style.marginBottom = "0.4em"
+    console.log("DANXV FIX YOUR CODE")
+}
+
+//shamelessly stole Daylight's code please don't sue me
+
+$(".footer a").css({"color":"#ffffff"});
+nct_stuff.themes[nct_stuff.selectedTheme].text_col = "#ffffff"
+
+let style = document.createElement('style');
+style.type = 'text/css';
+style.id = 'dynamic-style';
+
+style.innerHTML = `
+  .campaign_trail_start_emphasis {
+    background-color: #000000;
+  }
+  a:-webkit-any-link {
+      color: #000000;
+  }
+`;
+
+RecReading = true
+
+corrr=`\n<h2>THE CAMPAIGN TRAIL</h2>`
+
+nct_stuff.themes[nct_stuff.selectedTheme].coloring_title = "#700016";
+
+nct_stuff.themes[nct_stuff.selectedTheme].coloring_window = "#BFE6FF";
+
+document.getElementsByClassName("game_header")[0].style.backgroundColor = nct_stuff.themes[nct_stuff.selectedTheme].coloring_title;
+
+$("#game_window")[0].style.backgroundColor = nct_stuff.themes[nct_stuff.selectedTheme].coloring_window;
+
+$(".container")[0].style.backgroundColor = "#FFFFFF";
+
+document.getElementById("header").src = "https://i.imgur.com/1AJXMZZ.pngsimon.com/public/placeholderbanner.png";
+
+document.body.background = "https://i.imgur.com/sxbbJcW.png/coolbackgrounds.io/images/backgrounds/white/pure-white-background-85a2a7fd.jpg";
+
+document.head.innerHTML += "<style>#results_container {color:#000000;} .inner_window_w_desc {background-color:#E8FBFF!important;}</style>";
