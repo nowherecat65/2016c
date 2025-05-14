@@ -67,8 +67,8 @@ $("#game_window")[0].style.backgroundColor = nct_stuff.themes[nct_stuff.selected
 
 $(".container")[0].style.backgroundColor = "#FFFFFF";
 
-document.getElementById("header").src = "https://i.postimg.cc/HnB8jJvG/1-AJXMZZ-3.pngsimon.com/public/placeholderbanner.png";
+document.getElementById("header").src = "https://i.postimg.cc/nLZW8kwc/1-AJXMZZ-1-2.png";
 
-document.body.background = "https://i.imgur.com/sxbbJcW.png/coolbackgrounds.io/images/backgrounds/white/pure-white-background-85a2a7fd.jpg";
+document.body.background = "https://i.postimg.cc/7PTj2f74/sxbb-Jc-W-3.png";
 
 document.head.innerHTML += "<style>#results_container {color:#000000;} .inner_window_w_desc {background-color:#E8FBFF!important;}</style>";
