@@ -71,4 +71,9 @@ document.getElementById("header").src = "https://i.postimg.cc/nLZW8kwc/1-AJXMZZ-
 
 document.body.background = "https://i.postimg.cc/7PTj2f74/sxbb-Jc-W-3.png";
 
+let style = document.createElement('style');
+style.innerHTML = `#overall_result
+{overflow: auto;}`;
+document.head.appendChild(style);
+
 document.head.innerHTML += "<style>#results_container {color:#000000;} .inner_window_w_desc {background-color:#E8FBFF!important;}</style>";
