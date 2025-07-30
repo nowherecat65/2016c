@@ -51,6 +51,13 @@ style.innerHTML = `
   a:-webkit-any-link {
       color: #000000;
   }
+.overlay_window {
+            height: auto;
+		}
+
+.recommended_reading_box {
+            height: auto;
+            }
 `;
 
 RecReading = true
