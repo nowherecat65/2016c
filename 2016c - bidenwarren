@@ -69,6 +69,22 @@ used=false
   } else {
     return "<h3>You are the projected winner, in an electoral landslide.</h3><p><p>You have more than proven your ability, and shown the world that the Obama coalition stands, and maybe should now be referred to as the Obama-Biden coalition. You are going into the presidency with a strong mandate, and it’s likely you’ll be able to expand Obamacare or tackle another part of your legislative agenda. Now it’s time to pack for the move down the street into the White House, and let Elizabeth Warren, as the first woman Vice President, move into the Naval Observatory. President Obama was previously known for harboring doubts about your chances in 2016, but after your victory, he called to apologize for ever doubting your ability, and called you his ''closest friend.'' Feels good, doesn’t it, Joe? You deserve it! Somewhere, Beau’s watching, and he’s proud of you, just like you were always proud of him.<p><p>Pundits talk realignment, but you remind your team: folks don’t vote on theory or the science of turnout, they vote on whether the government has their back and is fighting for them.</p> "
   }
+if (playerEV >= 300) {
+  e.pages.push(
+    `<h3>POLITICO MAGAZINE: BIDEN’S BORING, BEAUTIFUL BEDROCK</h3>
+     <p><br><br>By CHRISTOPHER CADELAGO<br><br>
+     WASHINGTON — For President Joe Biden, the state of the union is steady. And for a Republican Party desperate to claw its way back to power, that’s the problem.<br><br>
+     Nearly three years into his term, Biden presides over an economy that is the envy of the developed world. The unemployment rate sits at a 50-year low of 3.5 percent, the stock market continues its record-shattering climb, and a major bipartisan infrastructure bill—forged with help from the party’s progressive left—gave the White House a big win. The mood is a far cry from the “misery index” that doomed Jimmy Carter or the recession that hobbled George H.W. Bush.<br><br>
+     In other words, it’s boring. And in the best possible way for an incumbent.<br><br>
+     “The number one thing any president running for reelection wants is peace and prosperity. Right now, Biden has both,” said a senior Democratic strategist granted anonymity to speak candidly. “What’s the GOP’s argument? That things are too good?”<br><br>
+     Indeed, the sprawling field of Republican challengers is struggling to find a coherent line of attack against a president whose greatest strength may be his perceived competency. They’re trying everything: painting him as a doddering figure prone to gaffes, a captive of his party’s socialist wing, and an illegitimate leader—a nod to Donald Trump’s relentless, baseless claims of a stolen 2016 election.<br><br>
+     None of it is sticking, at least yet.<br><br>
+     The former reality star and real estate tycoon himself looms over the primary, a vengeful specter demanding loyalty and pushing candidates to embrace his grievance-filled rhetoric. But his magic seems to be fading. Establishment figures like Governor (SC) Nikki Haley are testing the waters, arguing for a return to traditional conservatism without the circus, while the young populist wing, led chiefly by Senator Tom Cotton (AR) is pushing for MAGA without Trump. The result is a circular firing squad, with candidates training their fire on each other more often than on the occupant of the Oval Office.<br><br>
+     Biden, for his part, is playing the role he was born for: affable Uncle Joe, the tactile politician whose Irish-Catholic grandfatherly hands are always ready to squeeze a shoulder. Sure, the gaffe machine is still operational, see his unforced error last May, publicly reopening old wounds by calling himself and Bernie Sanders “underdogs” who were “not Barack’s first choice.” But in an era of stability, his occasional embellishments feel more quaint than disqualifying.<br><br>
+     The GOP’s fundamental challenge is the same as it was in 2012, and 2016: finding its footing in today’s America. And with the party fractured into warring factions—each fighting a different battle—they risk presenting a muddled contrast to a president whose strongest, simplest argument is on every paycheck and every bridge repair.</p>`
+  );
+  e.executable.push([0, (() => { e.image = 'https://i.postimg.cc/NFH7bSBC/New-Project-5.jpg'; })]);
+}
 
 
   
