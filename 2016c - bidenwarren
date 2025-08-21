@@ -44,16 +44,20 @@ music_end = function() {
 
 music_end()
 
-// ===== FINAL RESULTS RENDERING (multi-page) =====
+// ===== FINAL RESULTS RENDERING (multi-page, sticky page-0) =====
 
 // --- constants for images ---
 const DEFAULT_ENDING_IMG = "https://i.postimg.cc/XYgttbvz/New-Project-2025-05-14-T095444-289-5-1-1.png";
 const POLITICO_IMG       = "https://i.postimg.cc/NFH7bSBC/New-Project-5.jpg";
 
-// constructs endings based on header and pages (LEGACY pattern)
+// A hidden marker so we can detect if our custom page got overwritten
+const ENDING_SENTINEL_HTML = `<span id="biden-ending-sentinel" style="display:none"></span>`;
+
+// --- core ending renderer (LEGACY pattern) ---
 construct = (a = 1) => {
   e.page = e.page + a < e.pages.length ? e.page + a : 0;
-  let html = e.header;
+
+  let html = e.header + ENDING_SENTINEL_HTML; // include sentinel on every render
   html += e.pages[e.page] + "<br>";
 
   if (e.page > 0) {
@@ -63,20 +67,22 @@ construct = (a = 1) => {
     html += `<button id="next_btn" onclick='endingConstructor(1)'>Next</button>`;
   }
 
-  // Page-specific side effects (images etc.)
+  // Page-specific side effects (images, etc.)
   for (let i in e.executable) {
     if (e.executable[i][0] == e.page) {
       e.executable[i][1]();
     }
   }
 
-  // Image handling (matches legacy style)
-  if (e.image === true) {
-    setTimeout(() => {
-      const candImg = $(".person_image")[0];
+  // Image handling (match legacy behavior)
+  const applyImage = () => {
+    const box = document.getElementById("final_results_description");
+    if (!box) return;
+    const candImg = document.querySelector(".person_image");
+    if (e.image === true) {
       if (candImg) {
         candImg.remove();
-        $("#final_results_description")[0].style = `
+        box.style = `
           text-align:left;
           width:72%;
           height:71%;
@@ -87,13 +93,10 @@ construct = (a = 1) => {
           color:#000000
         `;
       }
-    }, 10);
-  } else if (e.image) {
-    setTimeout(() => {
-      const candImg = $(".person_image")[0];
+    } else if (e.image) {
       if (candImg) {
         candImg.src = e.image;
-        $("#final_results_description")[0].style = `
+        box.style = `
           text-align:left;
           width:72%;
           height:71%;
@@ -104,13 +107,19 @@ construct = (a = 1) => {
           color:#000000
         `;
       }
-    }, 10);
-  }
+    }
+  };
+  // small defer so DOM is ready
+  setTimeout(applyImage, 10);
+
   return html;
 };
 
 endingConstructor = (a = 1) => {
-  $("#final_results_description")[0].innerHTML = construct(a);
+  const el = document.getElementById("final_results_description") ||
+             document.querySelector(".final_results_description") ||
+             (window.$ ? $("#final_results_description")[0] : null);
+  if (el) el.innerHTML = construct(a);
 };
 
 // ===== MULTI-PAGE ENDINGS SETUP =====
@@ -126,7 +135,7 @@ endingPicker = (out, totv, aa, quickstats) => {
   // out = "win", "loss", or "tie" ; quickstats = [EV, PV share, raw votes]
   orderID = [aa[0].candidate, aa[1].candidate, aa[2].candidate, aa[3]?.candidate];
 
-  // reset UI bins
+  // reset bins
   e.pages = [];
   e.header = "";
   e.executable = [];
@@ -150,42 +159,88 @@ endingPicker = (out, totv, aa, quickstats) => {
   } else if (playerEV <= 329) {
     e.pages.push(`<h3>You are the projected winner, with a commanding electoral lead.</h3><p><p>This is a very strong victory, especially for a sitting VP. Many were unsure, even within your own party, that you could really win-including your own boss. But regardless, you’ve made Democrats everywhere proud of Uncle Joe. Now it’s time to pack for the move down the street into the White House, and let Elizabeth Warren, as the first woman Vice President, move into the Naval Observatory. Make sure to talk to Barack on the way out! You wish Beau were here, just to see it...<p><p> Your inaugural address is soon drafted: a forceful promise to protect, and expand voting rights, a call for economic fairness, and a pledge to restore dignity to the American worker. Staffers press for grand prose, but you insist on keeping it simple, plain words for plain promises. Later, alone, you reread Beau’s last handwritten note and slip it into the inside pocket of the coat you’ll wear on January 20th.</p>`);
   } else {
-    e.pages.push(`<h3>You are the projected winner, in an electoral landslide.</h3><p><p>You have more than proven your ability, and shown the world that the Obama coalition stands, and maybe should now be referred to as the Obama-Biden coalition. You are going into the presidency with a strong mandate, and it’s likely you’ll be able to expand Obamacare or tackle another part of your legislative agenda. Now it’s time to pack for the move down the street into the White House, and let Elizabeth Warren, as the first woman Vice President, move into the Naval Observatory. President Obama was previously known for harboring doubts about your chances in 2016, but after your victory, he called to apologize for ever doubting your ability, and called you his ''closest friend.'' Feels good, doesn’t it, Joe? You deserve it! Somewhere, Beau’s watching, and he’s proud of you, just like you were always proud of him.<p><p>Pundits talk realignment, but you remind your team: folks don’t vote on theory or the science of turnout, they vote on whether the government has their back and is fighting for them.</p> `);
+    e.pages.push(`<h3>You are the projected winner, in an electoral landslide.</h3><p><p>You have more than proven your ability, and shown the world that the Obama coalition stands, and maybe should now be referred to as the Obama-Biden coalition. You are going into the presidency with a strong mandate, and it’s likely you’ll be able to expand Obamacare or tackle another part of your legislative agenda. Now it’s time to pack for the move down the street into the White House, and let Elizabeth Warren, as the first woman Vice President, move into the Naval Observatory. President Obama was previously known for harboring doubts about your chances in 2016, but after your victory, he called to apologize for ever doubting your ability, and called you his ''closest friend.'' Feels good, doesn’t it, Joe? You deserve it! Somewhere, Beau’s watching, and he’s proud of you, just like you were always proud of him.<p><p>Pundits talk realignment, but you remind your team: folks don’t vote on theory or the science of turnout, they vote on whether the government has their back and is fighting for them.</p>`);
   }
 
-  // Default ending-photo whenever page 0 renders
+  // Always set the default photo when page 0 is rendered
   e.executable.push([0, () => { e.image = DEFAULT_ENDING_IMG; }]);
 
-  // ----- PAGE 1: POLITICO article for big wins (full text) -----
+  // ----- PAGE 1: POLITICO article (only for big wins) -----
   if (playerEV >= 300) {
-    const politicoPageIndex = e.pages.length; // will be 1
+    const politicoPageIndex = e.pages.length; // should be 1
     e.pages.push(
 `<h3>POLITICO MAGAZINE: BIDEN’S BORING, BEAUTIFUL BEDROCK</h3>
 <p><br><br>By CHRISTOPHER CADELAGO<br><br> WASHINGTON — For President Joe Biden, the state of the union is steady. And for a Republican Party desperate to claw its way back to power, that’s the problem.<br><br>Nearly three years into his term, Biden presides over an economy that is the envy of the developed world. The unemployment rate sits at a 50-year low of 3.5 percent, the stock market continues its record-shattering climb, and a major bipartisan infrastructure bill—forged with help from the party’s progressive left—gave the White House a big win. The mood is a far cry from the 'misery index' that doomed Jimmy Carter or the recession that hobbled George H.W. Bush.<br><br>In other words, it’s boring. And in the best possible way for an incumbent.<br><br>'The number one thing any president running for reelection wants is peace and prosperity. Right now, Biden has both,' said a senior Democratic strategist granted anonymity to speak candidly. 'What’s the GOP’s argument? That things are too good?'<br><br>Indeed, the sprawling field of Republican challengers is struggling to find a coherent line of attack against a president whose greatest strength may be his perceived competency. They’re trying everything: painting him as a doddering figure prone to gaffes, a captive of his party’s socialist wing, and an illegitimate leader—a nod to Donald Trump’s relentless, baseless claims of a stolen 2016 election.<br><br>None of it is sticking, at least yet.<br><br>The former reality star and real estate tycoon himself looms over the primary, a vengeful specter demanding loyalty and pushing candidates to embrace his grievance-filled rhetoric. But his magic seems to be fading. Establishment figures like Governor (SC) Nikki Haley are testing the waters, arguing for a return to traditional conservatism without the circus, while the young populist wing, led chiefly by Senator Tom Cotton (AR) is pushing for MAGA without Trump. The result is a circular firing squad, with candidates training their fire on each other more often than on the occupant of the Oval Office.<br><br>Biden, for his part, is playing the role he was born for: affable Uncle Joe, the tactile politician whose Irish-Catholic grandfatherly hands are always ready to squeeze a shoulder. Sure, the gaffe machine is still operational, see his unforced error last May, publicly reopening old wounds by calling himself and Bernie Sanders 'underdogs' who were 'not Barack’s first choice.' But in an era of stability, his occasional embellishments feel more quaint than disqualifying.<br><br>The GOP’s fundamental challenge is the same as it was in 2012, and 2016: finding it's footing in today's America. And with the party fractured into warring factions—each fighting a different battle, they risk presenting a muddled contrast to a president whose strongest, simplest argument is on every paycheck and every bridge repair.</p>`
     );
 
-    // Only load the POLITICO image while ON the POLITICO page
+    // Show POLITICO image ONLY on that page
     e.executable.push([politicoPageIndex, () => { e.image = POLITICO_IMG; }]);
 
-    // Add the CTA button to jump there from page 0
+    // Add a CTA on page 0 to jump to the article
     e.pages[0] += `<br><button onclick='e.page=0;endingConstructor(1)'>Read the POLITICO piece →</button>`;
   }
 
-  // --- INITIAL RENDER STRATEGY ---
-  // 1) return the full HTML for engines that use return strings
+  // --- FIRST FRAME: provide a string for engines that paint from return values
   const firstFrame = construct(0);
 
-  // 2) also force-paint AFTER the overlay exists (fixes “base ending until map”)
-  let tries = 0;
-  const paintWhenReady = () => {
-    const el = $("#final_results_description")[0];
-    if (el) {
-      el.innerHTML = construct(0);
-    } else if (tries++ < 12) {
-      setTimeout(paintWhenReady, 25);
+  // --- STICKY REPAINT & OVERWRITE-PROOFING ---
+  (function makePage0Sticky() {
+    // Wait up to ~2500ms; if engine overwrites our content, re-paint page 0
+    const deadline = Date.now() + 2500;
+
+    // Helper: find overlay node
+    const getBox = () =>
+      document.getElementById("final_results_description") ||
+      document.querySelector(".final_results_description");
+
+    // Repaint if sentinel missing
+    const repaintIfNeeded = () => {
+      const box = getBox();
+      if (!box) return;
+      const hasSentinel = !!box.querySelector("#biden-ending-sentinel");
+      if (!hasSentinel) {
+        // Our content got overwritten; paint ours back
+        endingConstructor(0);
+      }
+    };
+
+    // Try fast path
+    let box = getBox();
+    if (box) {
+      // Observe for changes and keep page-0 dominant briefly
+      const obs = new MutationObserver(() => repaintIfNeeded());
+      obs.observe(box, { childList: true, subtree: true });
+
+      // Keep nudging until deadline, then stop observing
+      const tick = () => {
+        repaintIfNeeded();
+        if (Date.now() < deadline) {
+          requestAnimationFrame(tick);
+        } else {
+          obs.disconnect();
+        }
+      };
+      requestAnimationFrame(tick);
+      return;
     }
-  };
-  setTimeout(paintWhenReady, 0);
+
+    // If box isn't mounted yet, observe body until it appears
+    const bodyObs = new MutationObserver(() => {
+      box = getBox();
+      if (box) {
+        bodyObs.disconnect();
+        // one immediate paint + start sticky window
+        endingConstructor(0);
+        makePage0Sticky(); // recurse to start the box observer and deadline
+      }
+    });
+    bodyObs.observe(document.body, { childList: true, subtree: true });
+
+    // Safety timeouts (covers animation delays)
+    setTimeout(() => endingConstructor(0), 300);
+    setTimeout(() => endingConstructor(0), 900);
+    setTimeout(() => endingConstructor(0), 1500);
+  })();
 
   return firstFrame;
 };
