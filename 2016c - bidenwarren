@@ -54,7 +54,7 @@ playerEV = quickstats[0];
 // quickstats = relevant data on candidate performance (format: your candidate's electoral vote count, your candidate's popular vote share, your candidate's raw vote total)
 
 function _wrap(contentHtml) {
-  return "<div style='max-height:460px; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:5px 6px 50px 6px; margin-bottom:9px; border:1px solid #cfd8dc; border-radius:4px; background:#ffffffcc; box-shadow:0 1px 2px rgba(0,0,0,.06); line-height:1.55; font-size:13px;'>"
+  return "<div style='max-height:460px; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:5px 6px 26px 6px; margin-bottom:9px; border:1px solid #cfd8dc; border-radius:4px; background:#ffffffcc; box-shadow:0 1px 2px rgba(0,0,0,.06); line-height:1.55; font-size:13px;'>"
        + "<style>h3{margin:0 0 10px 0; letter-spacing:.2px}</style>"
        + contentHtml
        + "</div>";
