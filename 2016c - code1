@@ -93,6 +93,9 @@ document.head.innerHTML += `
       margin: 0 auto;
       font-size: 16px;
     }
+.overlay_window {
+            height: auto;
+		}
 #map_footer {
     padding-top: 3em;
 }
